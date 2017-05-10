@@ -1,0 +1,6 @@
+*.so
+*.o
+mem
+*.out
+*.data
+random_num
