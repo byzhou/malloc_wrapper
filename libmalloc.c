@@ -39,11 +39,13 @@ void* __boyou_calloc(size_t num, size_t sz){
 }
 
 void* malloc(size_t sz) {	
-    return __boyou_notiming_calloc(1, sz);
+    //return __boyou_notiming_calloc(1, sz);
+	return __boyou_calloc(1, sz);
 }
 
 void* calloc(size_t num, size_t sz) {	
-    return __boyou_notiming_calloc(num, sz);
+    //return __boyou_notiming_calloc(num, sz);
+	return __boyou_calloc(num, sz);
 }
 
 
