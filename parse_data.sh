@@ -9,4 +9,5 @@ for ind,size in enumerate(heap_size[:-1]):
     if heap_size[ind + 1] > size:
         #print [heap_size[ind + 1] - size];
         print ins_count[ind + 1]
+print input_line[-1].split(',')[0]
 "

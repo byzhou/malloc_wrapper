@@ -2,7 +2,7 @@ target	= mem
 
 all: $(target)
 
-%.so: %.cc
+%.so: %.c
 	gcc -shared -fPIC $< -o $@ -ldl
 
 mem: libmalloc.so mem.cc

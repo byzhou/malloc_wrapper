@@ -10,10 +10,18 @@ void* __gxx_personality_v0;
 static void* __boyou_calloc_ptr = NULL;
 static size_t __boyou_calloc_size = 0;
 
+void* __boyou_notiming_calloc(size_t num, size_t sz){
+	// functional pointer to calloc
+	void* (*libc_calloc)(size_t, size_t) =  (void* (*)(size_t, size_t))dlsym(RTLD_NEXT, "calloc");
+
+	void* ptr 		= libc_calloc(num, sz);
+    //fprintf(stderr, "[MALLOC] Calloc ptr value is %p.\n", __calloc_ptr);
+    return ptr;
+}
+
 void* __boyou_calloc(size_t num, size_t sz){
 	// time measuring
 	struct timespec tstart = {0, 0}, tend = {0, 0};
-
 
 	// functional pointer to calloc
 	void* (*libc_calloc)(size_t, size_t) =  (void* (*)(size_t, size_t))dlsym(RTLD_NEXT, "calloc");
@@ -31,11 +39,11 @@ void* __boyou_calloc(size_t num, size_t sz){
 }
 
 void* malloc(size_t sz) {	
-    return __boyou_calloc(1, sz);
+    return __boyou_notiming_calloc(1, sz);
 }
 
 void* calloc(size_t num, size_t sz) {	
-    return __boyou_calloc(num, sz);
+    return __boyou_notiming_calloc(num, sz);
 }
 
 

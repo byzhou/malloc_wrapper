@@ -6,7 +6,7 @@
 int main(void) {
 	
 	for (int i = 0; i < 10; i ++) {
-		free(calloc(0, 10));
+		calloc(0, 10);
 	}
 	// int* ptr;
 	// ptr=(int*)malloc(4);
