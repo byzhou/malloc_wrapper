@@ -14,7 +14,9 @@ void* __boyou_notiming_calloc(size_t num, size_t sz){
 	// functional pointer to calloc
 	void* (*libc_calloc)(size_t, size_t) =  (void* (*)(size_t, size_t))dlsym(RTLD_NEXT, "calloc");
 
-	void* ptr 		= libc_calloc(num, sz);
+	void* ptr 			= libc_calloc(num, sz);
+	__boyou_calloc_ptr	= ptr;
+	__boyou_calloc_size	= sz;
     //fprintf(stderr, "[MALLOC] Calloc ptr value is %p.\n", __calloc_ptr);
     return ptr;
 }

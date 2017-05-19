@@ -5,7 +5,7 @@ all: $(target)
 %.so: %.c
 	gcc -shared -fPIC $< -o $@ -ldl
 
-mem: libmalloc.so mem.cc
+mem: libmalloc.so  libmemsettime.so  libnoinit.so mem.cc
 	gcc mem.cc -o mem
 
 .PHONY: debug

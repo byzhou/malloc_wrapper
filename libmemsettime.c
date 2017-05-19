@@ -15,7 +15,7 @@ void* __boyou_notiming_malloc(size_t sz){
 	void* ptr						= libc_malloc(sz);
 	__boyou_calloc_ptr 				= ptr;
 	__boyou_calloc_size 			= sz;
-	return libc_malloc(sz);
+	return ptr;
 }
 
 void* __boyou_notiming_calloc(size_t num, size_t sz){
@@ -40,7 +40,7 @@ void* __boyou_calloc(size_t num, size_t sz){
 
 	// calloc instead of malloc
 	clock_gettime(CLOCK_MONOTONIC, &tstart);	
-	memset(ptr, 0, num * sz);
+	libc_memset(ptr, 0, num * sz);
 	clock_gettime(CLOCK_MONOTONIC, &tend);	
 	double timespan	= (double)tend.tv_sec + 1.0e-9 * tend.tv_nsec -
 					(double)tstart.tv_sec - 1.0e-9 * tstart.tv_nsec;
@@ -72,7 +72,7 @@ void* memset(void* ptr, int num, size_t size) {
 	void* (*libc_memset)(void*, int, size_t)	= (void* (*)(void*, int, size_t))dlsym(RTLD_NEXT, "memset");
 
 	struct timespec tstart = {0, 0}, tend = {0, 0};
-	//fprintf(stderr, "[MEMSET] __calloc_ptr value is %p.\n", __calloc_ptr);
+	// fprintf(stderr, "[MEMSET] __boyou_calloc_ptr value is %p.\n", __boyou_calloc_ptr);
 	if ((ptr == __boyou_calloc_ptr) && (num == 0) && (size == __boyou_calloc_size)){
 		// calloc has initialized for malloc
 		//fprintf(stderr, "[MEMSET] Memset the same location where the previous calloc happens. %p\n", ptr);
@@ -81,7 +81,7 @@ void* memset(void* ptr, int num, size_t size) {
 		clock_gettime(CLOCK_MONOTONIC, &tend);	
 		double timespan	= (double)tend.tv_sec + 1.0e-9 * tend.tv_nsec -
 						(double)tstart.tv_sec - 1.0e-9 * tstart.tv_nsec;
-		fprintf(stderr, "[MEMSET] Time %.9f block size %lu\n", timespan, num * size);
+		fprintf(stderr, "[MEMSET] Time %.9f block size %lu\n", timespan, size);
 		__boyou_calloc_ptr = NULL;
 		__boyou_calloc_size = 42;
 		return ptr;
