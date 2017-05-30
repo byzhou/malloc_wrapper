@@ -1,11 +1,12 @@
 target	= mem
+sofile	= libmalloc.so  libmemsettime.so  libnoinit.so  libmalloctime.so
 
 all: $(target)
 
 %.so: %.c
 	gcc -shared -fPIC $< -o $@ -ldl
 
-mem: libmalloc.so  libmemsettime.so  libnoinit.so mem.cc
+mem: $(sofile) mem.cc
 	gcc mem.cc -o mem
 
 .PHONY: debug
